@@ -16,10 +16,13 @@ public class Card extends ResourceSupport{
     private Suit suit;
     private String readableText;
 
+    public Card(){}
+
     public Card(Long ID, Rank rank, Suit suit) {
         this.ID = ID;
         this.rank = rank;
         this.suit = suit;
+        this.readableText = this.toString();
     }
 
     public Long getID() {
@@ -44,6 +47,10 @@ public class Card extends ResourceSupport{
 
     public void setSuit(Suit suit) {
         this.suit = suit;
+    }
+
+    public String getReadableText() {
+        return readableText;
     }
 
     public String toString(){

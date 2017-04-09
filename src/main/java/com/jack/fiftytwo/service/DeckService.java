@@ -22,11 +22,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class DeckService {
 
     public void addDeck(Deck deck) {
-        DeckRepo.setDeck(deck);
+        DeckRepo.setRepoDeck(deck);
     }
 
     public Deck getDeck() {
-        return DeckRepo.getDeck();
+        return DeckRepo.getRepoDeck();
     }
 
     public void initDeck() {
@@ -45,7 +45,7 @@ public class DeckService {
             }
         }
 
-        DeckRepo.setDeck(new Deck(freshDeck));
+        DeckRepo.setRepoDeck(new Deck(freshDeck));
     }
 
     public Card getCardById(Long ID) throws ResourceNotFoundException {
@@ -53,11 +53,38 @@ public class DeckService {
                                            .filter(card -> card.getID() == ID)
                                            .collect(Collectors.toList());
 
-        try {
             return resultCards.get(0);
-        } catch (Exception e) {
-            return new Card();
+
+    }
+
+    public boolean removeCardById(Long ID) {
+        int deckSizeBeforeRemove = getDeck().getDeck().size();
+
+        final List<Card> remainingCards = getDeck().getDeck().stream()
+                .filter(card -> card.getID() != ID)
+                .collect(Collectors.toList());
+
+        int deckSizeAfterRemove = remainingCards.size();
+
+        if (deckSizeAfterRemove <  deckSizeBeforeRemove){
+            DeckRepo.setRepoDeck(new Deck((List<Card>) remainingCards));
+            return true;
         }
 
+        return false;
+
+    }
+
+    public Card addCard(Card card) {
+        Deck deck = DeckRepo.getRepoDeck();
+        List<Card> cards = deck.getDeck();
+
+        card.add(linkTo(methodOn(CardController.class).card(card.getID())).withSelfRel());
+
+        cards.add(card);
+
+        deck.setDeck(cards);
+
+        return card;
     }
 }

@@ -52,6 +52,10 @@ public class Card extends ResourceSupport{
         return readableText;
     }
 
+    public void setReadableText(String readableText) {
+        this.readableText = readableText;
+    }
+
     public String toString(){
         return getRank().toString() + " of " + getSuit().toString() + "s";
     }

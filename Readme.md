@@ -1,7 +1,7 @@
 Make a web app in whatever language you like. I want the API to be restful. The web app should amange a deck of cards
 , so you should be able to:
 
-- add
+- add (going to assume it's okay to have duplicate cards)
 - delete
 - return to state
 of the cards.

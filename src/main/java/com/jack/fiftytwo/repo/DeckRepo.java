@@ -6,17 +6,17 @@ import com.jack.fiftytwo.models.Deck;
  * jackhickey
  *
  *
- * This could be some sort of database...
+ * if anyone asks, this is a database :D
  **/
 
 public class DeckRepo {
     public static Deck deck;
 
-    public static Deck getDeck() {
+    public static Deck getRepoDeck() {
         return deck;
     }
 
-    public static void setDeck(Deck deck) {
+    public static void setRepoDeck(Deck deck) {
         DeckRepo.deck = deck;
     }
 }

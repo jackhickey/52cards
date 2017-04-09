@@ -1,4 +1,4 @@
-package enums;
+package com.jack.fiftytwo.enums;
 
 /**
  * jackhickey

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package service;
+package com.jack.fiftytwo.rest;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static models.Constants.MAX_DECK_SIZE;
+import static com.jack.fiftytwo.models.Constants.MAX_DECK_SIZE;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 

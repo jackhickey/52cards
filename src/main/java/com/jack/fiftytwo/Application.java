@@ -1,4 +1,4 @@
-package service;
+package com.jack.fiftytwo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

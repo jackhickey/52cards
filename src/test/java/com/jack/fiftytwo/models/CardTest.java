@@ -1,9 +1,10 @@
-package models;
+package com.jack.fiftytwo.models;
 
 import org.junit.Test;
 
-import enums.Rank;
-import enums.Suit;
+import com.jack.fiftytwo.enums.Rank;
+import com.jack.fiftytwo.enums.Suit;
+import com.jack.fiftytwo.models.Card;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

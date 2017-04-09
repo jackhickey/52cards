@@ -1,4 +1,4 @@
-package models;
+package com.jack.fiftytwo.models;
 
 import java.util.ArrayList;
 

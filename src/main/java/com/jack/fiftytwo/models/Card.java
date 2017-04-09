@@ -1,10 +1,9 @@
-package models;
+package com.jack.fiftytwo.models;
 
-import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.ResourceSupport;
 
-import enums.Rank;
-import enums.Suit;
+import com.jack.fiftytwo.enums.Rank;
+import com.jack.fiftytwo.enums.Suit;
 
 /**
  * jackhickey

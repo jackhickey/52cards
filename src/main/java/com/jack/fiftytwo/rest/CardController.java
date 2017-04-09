@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jack.fiftytwo.enums.Shuffle;
 import com.jack.fiftytwo.models.Card;
 import com.jack.fiftytwo.models.Deck;
 import com.jack.fiftytwo.service.DeckService;
@@ -26,7 +27,7 @@ public class CardController {
     DeckService service = new DeckService();
     boolean needsInit = true;
 
-    @RequestMapping("/deck")
+    @RequestMapping(value = "/deck", method = RequestMethod.GET)
     public HttpEntity<Deck> getDeck(
             @RequestParam(value = "refresh",
                           required = false,
@@ -39,6 +40,31 @@ public class CardController {
         }
 
         return new ResponseEntity<>(new Deck(service.getDeck().getDeck()), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/deck", method = RequestMethod.POST)
+    public HttpEntity<Card> addCard(@RequestBody Card card) {
+
+        card.setID(getRandomPositive());
+        card.setReadableText(card.toString());
+        card = service.addCard(card);
+
+
+        return new ResponseEntity<>(card, HttpStatus.CREATED);
+    }
+
+
+    @RequestMapping(value = "/deck", method = RequestMethod.PUT)
+    public HttpEntity<Deck> shuffleDeck(
+            @RequestParam(value = "shuffle",
+                          required = false)
+                    Shuffle shuffle){
+        if(shuffle == Shuffle.INPLACE) {
+            return new ResponseEntity<>(service.inPlaceShuffle(), HttpStatus.OK);
+        }
+
+            return new ResponseEntity<>(service.riffleShuffle(), HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/deck/{ID}", method = RequestMethod.GET)
@@ -68,16 +94,6 @@ public class CardController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value = "/deck", method = RequestMethod.POST)
-    public HttpEntity<Card> addCard(@RequestBody Card card) {
-
-        card.setID(getRandomPositive());
-        card.setReadableText(card.toString());
-        card = service.addCard(card);
-
-
-        return new ResponseEntity<>(card, HttpStatus.CREATED);
-    }
 
 
     public Long getRandomPositive() {

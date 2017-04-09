@@ -1,12 +1,15 @@
 package com.jack.fiftytwo.service;
 
 import org.springframework.boot.context.config.ResourceNotFoundException;
+import org.springframework.http.HttpEntity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jack.fiftytwo.enums.Rank;
+import com.jack.fiftytwo.enums.Shuffle;
 import com.jack.fiftytwo.enums.Suit;
 import com.jack.fiftytwo.models.Card;
 import com.jack.fiftytwo.models.Deck;
@@ -50,10 +53,10 @@ public class DeckService {
 
     public Card getCardById(Long ID) throws ResourceNotFoundException {
         final List<Card> resultCards = getDeck().getDeck().stream()
-                                           .filter(card -> card.getID() == ID)
-                                           .collect(Collectors.toList());
+                                                .filter(card -> card.getID() == ID)
+                                                .collect(Collectors.toList());
 
-            return resultCards.get(0);
+        return resultCards.get(0);
 
     }
 
@@ -61,12 +64,12 @@ public class DeckService {
         int deckSizeBeforeRemove = getDeck().getDeck().size();
 
         final List<Card> remainingCards = getDeck().getDeck().stream()
-                .filter(card -> card.getID() != ID)
-                .collect(Collectors.toList());
+                                                   .filter(card -> card.getID() != ID)
+                                                   .collect(Collectors.toList());
 
         int deckSizeAfterRemove = remainingCards.size();
 
-        if (deckSizeAfterRemove <  deckSizeBeforeRemove){
+        if (deckSizeAfterRemove < deckSizeBeforeRemove) {
             DeckRepo.setRepoDeck(new Deck((List<Card>) remainingCards));
             return true;
         }
@@ -86,5 +89,37 @@ public class DeckService {
         deck.setDeck(cards);
 
         return card;
+    }
+
+    public Deck inPlaceShuffle() {
+        List<Card> cards = getDeck().getDeck();
+        Collections.shuffle(cards);
+        addDeck(new Deck(cards));
+        return getDeck();
+    }
+
+    public Deck riffleShuffle() {
+        List<Card> cards = getDeck().getDeck();
+
+
+        int deckSize = cards.size();
+        int deckHalfRemainder = deckSize % 2;
+        int bottomHalfSize = deckSize / 2;
+        int topHalfSize = (deckSize / 2) - deckHalfRemainder;
+
+        List<Card> bottomHalf = cards.subList(0, bottomHalfSize);
+        List<Card> topHalf = cards.subList((bottomHalfSize), cards.size());
+
+        List<Card> shuffled = new ArrayList<>();
+
+        for (int i = 0; i < topHalfSize; i++) {
+            shuffled.add(bottomHalf.get(i));
+            shuffled.add(topHalf.get(i));
+        }
+
+        addDeck(new Deck(shuffled));
+
+        return getDeck();
+
     }
 }

@@ -18,6 +18,7 @@ import com.jack.fiftytwo.service.DeckService;
 import java.util.Random;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
  * jackhickey
@@ -39,7 +40,13 @@ public class CardController {
             needsInit = false;
         }
 
-        return new ResponseEntity<>(new Deck(service.getDeck().getDeck()), HttpStatus.OK);
+        Deck deck = new Deck(service.getDeck().getDeck());
+
+        deck.add(linkTo(methodOn(CardController.class).getDeck(false)).withSelfRel());
+        deck.add(linkTo(methodOn(CardController.class).shuffleDeck(Shuffle.INPLACE)).withSelfRel());
+        deck.add(linkTo(methodOn(CardController.class).shuffleDeck(Shuffle.RIFFLE)).withSelfRel());
+
+        return new ResponseEntity<>(deck, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/deck", method = RequestMethod.POST)

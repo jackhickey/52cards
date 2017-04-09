@@ -1,11 +1,13 @@
 package com.jack.fiftytwo.models;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import java.util.List;
 
 /**
  * jackhickey
  **/
-public class Deck {
+public class Deck extends ResourceSupport{
     private List<Card> deck;
 
     public Deck(List<Card> deck) {
